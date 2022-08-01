@@ -8,7 +8,9 @@ type changeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
 type changeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
 type ActionType = removeTaskActionType | addTaskActionType | changeTaskStatusType | changeTaskTitleType | addTodolistACType | removeTodolistACType
 
-export const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
+const initialState:TasksStateType = {}
+
+export const tasksReducer = (state= initialState, action: ActionType): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
             return {...state,[action.todolistId]: state[action.todolistId].filter(el => el.id !== action.taskId)}
@@ -23,11 +25,11 @@ export const tasksReducer = (state: TasksStateType, action: ActionType): TasksSt
             return {...state, [action.todolistId] : state[action.todolistId].map(task => task.id === action.taskId ? {...task, title: action.title} : task)}
         }
         case "ADD-TODOLIST" : {
-            return {...state, [action.payload.todolistId] : []}
+            return {...state, [action.todolistId] : []}
         }
         case "REMOVE-TODOLIST" : {
             let copyState = {...state}
-            delete copyState[action.payload.todolistId1]
+            delete copyState[action.todolistId1]
             return copyState
         }
         default:
