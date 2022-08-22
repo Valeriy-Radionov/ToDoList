@@ -5,6 +5,13 @@ import * as serviceWorker from './serviceWorker';
 import AppWithRedux from './AppWithRedux';
 import {store} from './state/store';
 import {Provider} from 'react-redux';
+import {createRoot} from "react-dom/client";
+
+// const container = document.getElementById("AppWithRedux")
+// const root = createRoot(container!)
+// root.render(<Provider store={store}>
+//     <AppWithRedux/>
+// </Provider>)
 
 ReactDOM.render(
     <Provider store={store}>

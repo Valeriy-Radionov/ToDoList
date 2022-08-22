@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import axios from "axios";
+import {todolistApi} from "../API/todolist-api";
 
 export default {
     title: 'API'
@@ -8,12 +8,7 @@ export default {
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        // здесь мы будем делать запрос и ответ закидывать в стейт.
-        // который в виде строки будем отображать в div-ке
-        axios.get("https://social-network.samuraijs.com/api/1.1/todo-lists", {
-                withCredentials: true
-            }
-        ).then((response) => {
+            todolistApi.getTodos().then((response) => {
             setState(response.data)
         })
 
@@ -23,14 +18,9 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        const title = "Mytodo"
-        axios.post("https://social-network.samuraijs.com/api/1.1/todo-lists", {title}, {
-            withCredentials: true,
-            headers: {
-                'API-KEY': "1ca42077-7cf4-467f-8cb0-9dda07038fd9"
-            }
-        }).then(response => {
-            setState(response.data.data.item)
+        const title = "Mytodolist"
+        todolistApi.createTodo(title).then(response => {
+            setState(response.data.data)
         })
     }, [])
 
@@ -39,6 +29,10 @@ export const CreateTodolist = () => {
 export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
+        let todolistId = "fed6d36d-c350-4098-ad88-95517611d76a"
+        todolistApi.deleteTodolist(todolistId).then(response => {
+            setState(response.data)
+        })
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
@@ -46,6 +40,11 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
+        let todolistId = "25d9dbd9-9411-400b-8733-f3f6d2057506"
+        let newTitle = "New Title Value!!!"
+        todolistApi.updateTodoTitle({todolistId, newTitle}).then(response => {
+            setState(response.data)
+        })
     }, [])
 
     return <div>{JSON.stringify(state)}</div>
