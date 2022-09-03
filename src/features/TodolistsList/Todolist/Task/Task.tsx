@@ -1,10 +1,8 @@
 import React, { ChangeEvent, useCallback } from 'react'
 import { EditableSpan } from '../../../../components/EditableSpan/EditableSpan'
 import { TaskStatuses, TaskType } from '../../../../api/todolists-api'
-
-import IconButton from '@mui/material/IconButton';
-import Checkbox from '@mui/material/Checkbox';
 import {Delete} from "@material-ui/icons";
+import {Checkbox, IconButton} from "@mui/material";
 
 type TaskPropsType = {
     task: TaskType
@@ -25,7 +23,7 @@ export const Task = React.memo((props: TaskPropsType) => {
         props.changeTaskTitle(props.task.id, newValue, props.todolistId)
     }, [props.task.id, props.todolistId]);
 
-    return <div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
+    return <div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? "is-done" : ""}>
         <Checkbox
             checked={props.task.status === TaskStatuses.Completed}
             color="primary"

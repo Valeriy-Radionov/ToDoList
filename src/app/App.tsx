@@ -1,21 +1,10 @@
 import React from 'react'
 import './App.css'
 import { TodolistsList } from '../features/TodolistsList/TodolistsList'
-
-// You can learn about the difference by reading this guide on minimizing bundle size.
-// https://mui.com/guides/minimizing-bundle-size/
-// import { AppBar, Button, Container, IconButton, Toolbar, Typography } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import {LinearProgress} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType, useAppSelector} from "./store";
-import {InitialStateLoadingType, RequestStatusType} from "./app-reducer";
 import {Menu} from "@material-ui/icons";
+import {useAppSelector} from "../utils/huks/app-hooks";
+import {AppBar, Button, Container, IconButton, Toolbar, Typography} from "@material-ui/core";
 
 
 function App() {

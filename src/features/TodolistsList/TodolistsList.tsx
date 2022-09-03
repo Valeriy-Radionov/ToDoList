@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {AppActionsType, AppDispatch, AppRootStateType, AppThunk, useAppDispatch} from '../../app/store'
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -8,25 +6,20 @@ import {
     fetchTodolistsTC,
     FilterValuesType,
     removeTodolistTC,
-    TodolistDomainType
 } from './todolists-reducer'
-import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from './tasks-reducer'
+import { addTaskTC, removeTaskTC, updateTaskTC } from './tasks-reducer'
 import { TaskStatuses } from '../../api/todolists-api'
 import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
 import { Todolist } from './Todolist/Todolist'
-import { ThunkAction } from 'redux-thunk'
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import {Action, AnyAction, Dispatch} from "redux";
+import {useAppDispatch, useAppSelector} from "../../utils/huks/app-hooks";
+import {Grid, Paper} from "@material-ui/core";
 
 export const TodolistsList: React.FC = () => {
 
-    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const todolists = useAppSelector(state => state.todolists)
+    const tasks = useAppSelector(state => state.tasks)
 
-    const dispatch = useDispatch<any>()
-
-    // const dispatch: AppDispatch = useAppDispatch()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         const thunk = fetchTodolistsTC()
@@ -75,7 +68,7 @@ export const TodolistsList: React.FC = () => {
 
 
     return <>
-        <Grid container style={{padding: '20px'}}>
+        <Grid container style={{padding: "20px"}}>
             <AddItemForm addItem={addTodolist}/>
         </Grid>
         <Grid container spacing={3}>
@@ -84,7 +77,7 @@ export const TodolistsList: React.FC = () => {
                     let allTodolistTasks = tasks[tl.id]
 
                     return <Grid item key={tl.id}>
-                        <Paper style={{padding: '10px'}}>
+                        <Paper style={{padding: "10px"}}>
                             <Todolist
                                 id={tl.id}
                                 title={tl.title}
