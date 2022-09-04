@@ -5,6 +5,7 @@ import {LinearProgress} from "@mui/material";
 import {Menu} from "@material-ui/icons";
 import {useAppSelector} from "../utils/huks/app-hooks";
 import {AppBar, Button, Container, IconButton, Toolbar, Typography} from "@material-ui/core";
+import {ErrorSnackbar} from "../components/errorSnackbar/ErrorSnackbar";
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
 
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">

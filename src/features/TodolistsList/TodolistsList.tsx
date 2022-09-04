@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -7,10 +7,10 @@ import {
     FilterValuesType,
     removeTodolistTC,
 } from './todolists-reducer'
-import { addTaskTC, removeTaskTC, updateTaskTC } from './tasks-reducer'
-import { TaskStatuses } from '../../api/todolists-api'
-import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
-import { Todolist } from './Todolist/Todolist'
+import {addTaskTC, removeTaskTC, updateTaskTC} from './tasks-reducer'
+import {TaskStatuses} from '../../api/todolists-api'
+import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
+import {Todolist} from './Todolist/Todolist'
 import {useAppDispatch, useAppSelector} from "../../utils/huks/app-hooks";
 import {Grid, Paper} from "@material-ui/core";
 
@@ -85,6 +85,7 @@ export const TodolistsList: React.FC = () => {
                                 removeTask={removeTask}
                                 changeFilter={changeFilter}
                                 addTask={addTask}
+                                entityStatus={tl.entityStatus}
                                 changeTaskStatus={changeStatus}
                                 filter={tl.filter}
                                 removeTodolist={removeTodolist}
