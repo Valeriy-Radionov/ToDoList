@@ -1,17 +1,36 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './App.css'
-import { TodolistsList } from '../features/TodolistsList/TodolistsList'
+import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 import {LinearProgress} from "@mui/material";
 import {Menu} from "@material-ui/icons";
-import {useAppSelector} from "../utils/huks/app-hooks";
-import {AppBar, Button, Container, IconButton, Toolbar, Typography} from "@material-ui/core";
+import {useAppDispatch, useAppSelector} from "../utils/huks/app-hooks";
+import {AppBar, Button, CircularProgress, Container, IconButton, Toolbar, Typography} from "@material-ui/core";
 import {ErrorSnackbar} from "../components/errorSnackbar/ErrorSnackbar";
+import {Login} from "../features/Login/Login";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {initializeAppTC} from "./app-reducer";
+import {logoutTC} from "../features/Login/auth-reducer";
 
 
 function App() {
-
     const status = useAppSelector(state => state.app.status)
+    const dispatch = useAppDispatch()
+    const isInitialized = useAppSelector(state => state.app.isInitialized)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, [])
+
+    const logOutHandler = () => {
+        dispatch(logoutTC())
+    }
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
     return (
         <div className="App">
             <ErrorSnackbar/>
@@ -23,12 +42,17 @@ function App() {
                     <Typography variant="h6">
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn && <Button color="inherit" onClick={logOutHandler}>Log out</Button>}
                 </Toolbar>
                 {status === "loading" && <LinearProgress color={"secondary"}/>}
             </AppBar>
             <Container fixed>
-                <TodolistsList/>
+                <Routes>
+                    <Route path={"/"} element={<TodolistsList/>}/>
+                    <Route path={"/login"} element={<Login/>}/>
+                    <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
+                    <Route path="*" element={<Navigate to={"/404"}/>}/>
+                </Routes>
             </Container>
         </div>
     )

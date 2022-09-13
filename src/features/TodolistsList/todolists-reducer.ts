@@ -62,9 +62,10 @@ export const fetchTodolistsTC = (): AppThunk => {
         try {
             const res = await todolistsAPI.getTodolists()
             dispatch(setTodolistsAC(res.data))
-            dispatch(setAppStatusAC("succeeded"))
         } catch (e) {
             handleServerNetworkError(e, dispatch)
+        } finally {
+            dispatch(setAppStatusAC("succeeded"))
         }
     }
 }
@@ -107,6 +108,7 @@ export const changeTodolistTitleTC = (id: string, title: string): AppThunk => {
             dispatch(setAppStatusAC("succeeded"))
         } catch (e) {
             handleServerNetworkError(e, dispatch)
+            dispatch(changeTodolistStatusAC(id, "loading"))
         }
     }
 }

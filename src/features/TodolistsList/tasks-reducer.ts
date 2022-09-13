@@ -1,4 +1,4 @@
-import {AddTodolistACType, RemoveTodolistACType, SetTodolistsACType} from './todolists-reducer'
+import {AddTodolistACType, changeTodolistStatusAC, RemoveTodolistACType, SetTodolistsACType} from './todolists-reducer'
 import {
     RESULT_CODES,
     TaskPriorities,
@@ -99,14 +99,17 @@ export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => as
 }
 
 export const addTaskTC = (title: string, todolistId: string): AppThunk => async (dispatch) => {
+
+    dispatch(setAppStatusAC("loading"))
+    dispatch(changeTodolistStatusAC(todolistId, "loading"))
     try {
-        dispatch(setAppStatusAC("loading"))
         const res = await todolistsAPI.createTask(todolistId, title)
         if (res.data.resultCode === RESULT_CODES.succeeded) {
             const task = res.data.data.item
             const action = addTaskAC(task)
             dispatch(action)
             dispatch(setAppStatusAC("succeeded"))
+            dispatch(changeTodolistStatusAC(todolistId, "idle"))
         } else {
             handleServerAppError(res.data, dispatch)
         }
@@ -160,6 +163,7 @@ export type UpdateDomainTaskModelType = {
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
+
 export type ActionsTaskType =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
