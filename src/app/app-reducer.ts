@@ -30,8 +30,8 @@ export const appReducer = slice.reducer
 export const setAppInitializedAC = slice.actions.setAppInitializedAC
 export const setAppStatusAC = slice.actions.setAppStatusAC
 export const setAppErrorAC = slice.actions.setAppErrorAC
-//thunks
 
+//thunks
 export const initializeAppTC = () => async (dispatch: Dispatch) => {
     try {
         const res = await authAPI.me()

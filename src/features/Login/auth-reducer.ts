@@ -20,14 +20,6 @@ const slice = createSlice({
 export const authReducer = slice.reducer
 export const setIsLoggedInAC = slice.actions.setIsLoggedInAC
 
-// types
-// export type AuthActionsType = setIsLoggedInACType | SetAppStatusACType | SetAppErrorACType
-
-// actions
-// type setIsLoggedInACType = ReturnType<typeof setIsLoggedInAC>
-// export const setIsLoggedInAC = (value: boolean) =>
-//     ({type: SET_IS_LOGGED_IN, value} as const)
-
 // thunks
 export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC({status: "loading"}))
