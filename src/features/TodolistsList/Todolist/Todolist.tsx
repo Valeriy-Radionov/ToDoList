@@ -34,8 +34,6 @@ type TodolistPropsType = {
 };
 
 export const Todolist = React.memo(function (props: TodolistPropsType) {
-  console.log("Todolist called");
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
