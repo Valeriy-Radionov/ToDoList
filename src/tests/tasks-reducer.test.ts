@@ -1,9 +1,9 @@
-import exp from "constants";
-import { TaskPriorities, TaskStatuses } from "../api/todolists-api";
-import { addTaskAC, removeTaskAC, setTasksAC, tasksReducer, TasksStateType, updateTaskAC } from "../features/TodolistsList/tasks-reducer";
-import { addTodolistAC, removeTodolistAC, setTodolistsAC } from "../features/TodolistsList/todolists-reducer";
+import exp from "constants"
+import { TaskPriorities, TaskStatuses } from "../api/todolists-api"
+import { addTaskAC, removeTaskAC, setTasksAC, tasksReducer, TasksStateType, updateTaskAC } from "../features/TodolistsList/tasks-reducer"
+import { addTodolistAC, removeTodolistAC, setTodolistsAC } from "../features/TodolistsList/todolists-reducer"
 
-let startState: TasksStateType = {};
+let startState: TasksStateType = {}
 beforeEach(() => {
   startState = {
     todolistId1: [
@@ -16,14 +16,14 @@ beforeEach(() => {
       { id: "2", title: "milk", status: TaskStatuses.Completed, todoListId: "todolistId2", description: "", startDate: "", deadline: "", addedDate: "", order: 0, priority: TaskPriorities.Low },
       { id: "3", title: "tea", status: TaskStatuses.New, todoListId: "todolistId2", description: "", startDate: "", deadline: "", addedDate: "", order: 0, priority: TaskPriorities.Low },
     ],
-  };
-});
+  }
+})
 
 test("correct task should be deleted from correct array", () => {
-  const action = removeTaskAC({ taskId: "2", todolistId: "todolistId2" });
-  const endState = tasksReducer(startState, action);
-  expect(endState["todolistId1"].length).toBe(3);
-});
+  const action = removeTaskAC({ taskId: "2", todolistId: "todolistId2" })
+  const endState = tasksReducer(startState, action)
+  expect(endState["todolistId1"].length).toBe(3)
+})
 
 test("correct task should be added to correct array", () => {
   const task = {
@@ -37,36 +37,36 @@ test("correct task should be added to correct array", () => {
     priority: 0,
     startDate: "",
     id: "id exist",
-  };
+  }
   const action = addTaskAC({
     task: task,
-  });
+  })
 
-  const endState = tasksReducer(startState, action);
+  const endState = tasksReducer(startState, action)
 
-  expect(endState["todolistId1"].length).toBe(3);
-  expect(endState["todolistId2"].length).toBe(4);
-  expect(endState["todolistId2"][0].id).toBeDefined();
-  expect(endState["todolistId2"][0].title).toBe("juce");
-  expect(endState["todolistId2"][0].status).toBe(TaskStatuses.New);
-});
+  expect(endState["todolistId1"].length).toBe(3)
+  expect(endState["todolistId2"].length).toBe(4)
+  expect(endState["todolistId2"][0].id).toBeDefined()
+  expect(endState["todolistId2"][0].title).toBe("juce")
+  expect(endState["todolistId2"][0].status).toBe(TaskStatuses.New)
+})
 
 test("status of specified task should be changed", () => {
-  const action = updateTaskAC({ taskId: "2", model: { status: TaskStatuses.New }, todolistId: "todolistId2" });
-  const endState = tasksReducer(startState, action);
+  const action = updateTaskAC({ taskId: "2", model: { status: TaskStatuses.New }, todolistId: "todolistId2" })
+  const endState = tasksReducer(startState, action)
 
-  expect(endState["todolistId1"][1].status).toBe(TaskStatuses.Completed);
-  expect(endState["todolistId2"][1].status).toBe(TaskStatuses.New);
-});
+  expect(endState["todolistId1"][1].status).toBe(TaskStatuses.Completed)
+  expect(endState["todolistId2"][1].status).toBe(TaskStatuses.New)
+})
 
 test("title of specified task should be changed", () => {
-  const action = updateTaskAC({ taskId: "2", model: { title: "yogurt" }, todolistId: "todolistId2" });
-  const endState = tasksReducer(startState, action);
+  const action = updateTaskAC({ taskId: "2", model: { title: "yogurt" }, todolistId: "todolistId2" })
+  const endState = tasksReducer(startState, action)
 
-  expect(endState["todolistId2"][1].title).toBe("yogurt");
-  expect(endState["todolistId2"][1].id).toBe("2");
-  expect(endState["todolistId2"][0].title).toBe("bread");
-});
+  expect(endState["todolistId2"][1].title).toBe("yogurt")
+  expect(endState["todolistId2"][1].id).toBe("2")
+  expect(endState["todolistId2"][0].title).toBe("bread")
+})
 
 test("new array should be added when new todolist is added", () => {
   const action = addTodolistAC({
@@ -76,27 +76,27 @@ test("new array should be added when new todolist is added", () => {
       addedDate: "",
       order: 0,
     },
-  });
-  const endState = tasksReducer(startState, action);
+  })
+  const endState = tasksReducer(startState, action)
 
-  const keys = Object.keys(endState);
-  const newKey = keys.find((k) => k !== "todolistId1" && k !== "todolistId2");
+  const keys = Object.keys(endState)
+  const newKey = keys.find((k) => k !== "todolistId1" && k !== "todolistId2")
   if (!newKey) {
-    throw Error("new key should be added");
+    throw Error("new key should be added")
   }
-  expect(keys.length).toBe(3);
-  expect(endState[newKey]).toEqual([]);
-});
+  expect(keys.length).toBe(3)
+  expect(endState[newKey]).toEqual([])
+})
 
 test("property with todolistId should be deleted", () => {
-  const action = removeTodolistAC({ id: "todolistId2" });
-  const endState = tasksReducer(startState, action);
+  const action = removeTodolistAC({ id: "todolistId2" })
+  const endState = tasksReducer(startState, action)
 
-  const keys = Object.keys(endState);
+  const keys = Object.keys(endState)
 
-  expect(keys.length).toBe(1);
-  expect(endState["todolistId2"]).not.toBeDefined;
-});
+  expect(keys.length).toBe(1)
+  expect(endState["todolistId2"]).not.toBeDefined
+})
 
 test("empty arrays should be added when we set todolists", () => {
   let action = setTodolistsAC({
@@ -104,20 +104,20 @@ test("empty arrays should be added when we set todolists", () => {
       { id: "1", title: "title 1", order: 0, addedDate: "" },
       { id: "2", title: "title 2", order: 0, addedDate: "" },
     ],
-  });
+  })
 
-  const endState = tasksReducer({}, action);
-  const keys = Object.keys(endState);
+  const endState = tasksReducer({}, action)
+  const keys = Object.keys(endState)
 
-  expect(keys.length).toBe(2);
-  expect(endState["1"]).toBeDefined();
-  expect(endState["2"]).toBeDefined();
-});
+  expect(keys.length).toBe(2)
+  expect(endState["1"]).toBeDefined()
+  expect(endState["2"]).toBeDefined()
+})
 
 test("tasks should be added for todolist", () => {
-  const action = setTasksAC({ tasks: startState["todolistId1"], todolistId: "todolistId1" });
+  const action = setTasksAC({ tasks: startState["todolistId1"], todolistId: "todolistId1" })
 
-  const endState = tasksReducer({ todolistId2: [], todolistid1: [] }, action);
-  expect(endState["todolistId1"].length).toBe(3);
-  expect(endState["todolistId2"].length).toBe(0);
-});
+  const endState = tasksReducer({ todolistId2: [], todolistid1: [] }, action)
+  expect(endState["todolistId1"].length).toBe(3)
+  expect(endState["todolistId2"].length).toBe(0)
+})
