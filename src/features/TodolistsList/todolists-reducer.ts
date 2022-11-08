@@ -1,13 +1,6 @@
-import {
-  RESULT_CODES,
-  todolistsAPI,
-  TodolistType,
-} from "../../api/todolists-api";
+import { RESULT_CODES, todolistsAPI, TodolistType } from "../../api/todolists-api";
 import { RequestStatusType, setAppStatusAC } from "../../app/app-reducer";
-import {
-  handleServerAppError,
-  handleServerNetworkError,
-} from "../../components/utils/errors-utils";
+import { handleServerAppError, handleServerNetworkError } from "../../components/utils/errors-utils";
 import { Dispatch } from "redux";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -36,34 +29,22 @@ const slice = createSlice({
         entityStatus: "idle",
       });
     },
-    changeTodolistTitleAC(
-      state,
-      action: PayloadAction<{ id: string; title: string }>
-    ) {
+    changeTodolistTitleAC(state, action: PayloadAction<{ id: string; title: string }>) {
       const index = state.findIndex((tl) => tl.id === action.payload.id);
       state[index].title = action.payload.title;
     },
-    changeTodolistFilterAC(
-      state,
-      action: PayloadAction<{ id: string; filter: FilterValuesType }>
-    ) {
+    changeTodolistFilterAC(state, action: PayloadAction<{ id: string; filter: FilterValuesType }>) {
       const index = state.findIndex((tl) => tl.id === action.payload.id);
       state[index].filter = action.payload.filter;
     },
-    setTodolistsAC(
-      state,
-      action: PayloadAction<{ todolists: Array<TodolistType> }>
-    ) {
+    setTodolistsAC(state, action: PayloadAction<{ todolists: Array<TodolistType> }>) {
       return action.payload.todolists.map((tl) => ({
         ...tl,
         filter: "all",
         entityStatus: "idle",
       }));
     },
-    changeTodolistStatusAC(
-      state,
-      action: PayloadAction<{ id: string; status: RequestStatusType }>
-    ) {
+    changeTodolistStatusAC(state, action: PayloadAction<{ id: string; status: RequestStatusType }>) {
       const index = state.findIndex((tl) => tl.id === action.payload.id);
       state[index].entityStatus = action.payload.status;
     },
@@ -109,6 +90,7 @@ export const removeTodolistTC = (todolistId: string) => {
     }
   };
 };
+
 export const addTodolistTC = (title: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC({ status: "loading" }));
@@ -121,6 +103,7 @@ export const addTodolistTC = (title: string) => {
     }
   };
 };
+
 export const changeTodolistTitleTC = (id: string, title: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC({ status: "loading" }));
