@@ -1,9 +1,7 @@
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RESULT_CODES, todolistsAPI, TodolistType } from "../../api/todolists-api"
 import { RequestStatusType, setAppStatusAC } from "../../app/app-reducer"
 import { handleServerAppError, handleServerNetworkError } from "../../components/utils/errors-utils"
-import { Dispatch } from "redux"
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-
 export type FilterValuesType = "all" | "active" | "completed"
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType
