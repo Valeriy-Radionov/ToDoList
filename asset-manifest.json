@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Valeriy-Radionov/ToDoList/static/css/main.b5a559fb.css",
-    "main.js": "/Valeriy-Radionov/ToDoList/static/js/main.cb23a0bd.js",
+    "main.css": "/Valeriy-Radionov/ToDoList/static/css/main.86bef838.css",
+    "main.js": "/Valeriy-Radionov/ToDoList/static/js/main.c46b01d9.js",
     "static/js/988.01286f2c.chunk.js": "/Valeriy-Radionov/ToDoList/static/js/988.01286f2c.chunk.js",
     "index.html": "/Valeriy-Radionov/ToDoList/index.html",
-    "main.b5a559fb.css.map": "/Valeriy-Radionov/ToDoList/static/css/main.b5a559fb.css.map",
-    "main.cb23a0bd.js.map": "/Valeriy-Radionov/ToDoList/static/js/main.cb23a0bd.js.map",
+    "main.86bef838.css.map": "/Valeriy-Radionov/ToDoList/static/css/main.86bef838.css.map",
+    "main.c46b01d9.js.map": "/Valeriy-Radionov/ToDoList/static/js/main.c46b01d9.js.map",
     "988.01286f2c.chunk.js.map": "/Valeriy-Radionov/ToDoList/static/js/988.01286f2c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b5a559fb.css",
-    "static/js/main.cb23a0bd.js"
+    "static/css/main.86bef838.css",
+    "static/js/main.c46b01d9.js"
   ]
 }
