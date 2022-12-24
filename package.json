@@ -39,7 +39,7 @@
     "storybook": "start-storybook -p 9009 -s public --no-dll",
     "build-storybook": "build-storybook -s public",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d buid"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
