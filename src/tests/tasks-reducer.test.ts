@@ -1,7 +1,7 @@
 import exp from "constants"
 import { TaskPriorities, TaskStatuses } from "../api/todolists-api"
 import { addTaskTC, fetchTasks, removeTaskTC, tasksReducer, TasksStateType, updateTaskTC } from "../features/TodolistsList/tasks-reducer"
-import { addTodolistAC, removeTodolistAC, setTodolistsAC } from "../features/TodolistsList/todolists-reducer"
+import { addTodolistTC, fetchTodolistsTC, removeTodolistTC } from "../features/TodolistsList/todolists-reducer"
 
 let startState: TasksStateType = {}
 beforeEach(() => {
@@ -69,14 +69,8 @@ test("title of specified task should be changed", () => {
 })
 
 test("new array should be added when new todolist is added", () => {
-  const action = addTodolistAC({
-    todolist: {
-      id: "newTodoId",
-      title: "Hello! I'm a new todo",
-      addedDate: "",
-      order: 0,
-    },
-  })
+  const data = { id: "newTodoId", title: "Hello! I'm a new todo", addedDate: "", order: 0 }
+  const action = addTodolistTC.fulfilled({ todolist: data }, "requestId", data.title)
   const endState = tasksReducer(startState, action)
 
   const keys = Object.keys(endState)
@@ -89,7 +83,8 @@ test("new array should be added when new todolist is added", () => {
 })
 
 test("property with todolistId should be deleted", () => {
-  const action = removeTodolistAC({ id: "todolistId2" })
+  const data = { id: "todolistId2" }
+  const action = removeTodolistTC.fulfilled(data, "requestId", "todolistId2")
   const endState = tasksReducer(startState, action)
 
   const keys = Object.keys(endState)
@@ -99,12 +94,13 @@ test("property with todolistId should be deleted", () => {
 })
 
 test("empty arrays should be added when we set todolists", () => {
-  let action = setTodolistsAC({
+  const data = {
     todolists: [
       { id: "1", title: "title 1", order: 0, addedDate: "" },
       { id: "2", title: "title 2", order: 0, addedDate: "" },
     ],
-  })
+  }
+  let action = fetchTodolistsTC.fulfilled(data, "requestId")
 
   const endState = tasksReducer({}, action)
   const keys = Object.keys(endState)

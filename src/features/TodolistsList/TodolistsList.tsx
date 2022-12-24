@@ -1,12 +1,12 @@
+import { Grid, Paper } from "@material-ui/core"
 import React, { useCallback, useEffect } from "react"
-import { addTodolistTC, changeTodolistFilterAC, changeTodolistTitleTC, fetchTodolistsTC, FilterValuesType, removeTodolistTC } from "./todolists-reducer"
-import { addTaskTC, removeTaskTC, updateTaskTC } from "./tasks-reducer"
+import { Navigate } from "react-router-dom"
 import { TaskStatuses } from "../../api/todolists-api"
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm"
-import { Todolist } from "./Todolist/Todolist"
 import { useAppDispatch, useAppSelector } from "../../utils/huks/app-hooks"
-import { Grid, Paper } from "@material-ui/core"
-import { Navigate } from "react-router-dom"
+import { addTaskTC, removeTaskTC, updateTaskTC } from "./tasks-reducer"
+import { Todolist } from "./Todolist/Todolist"
+import { addTodolistTC, changeTodolistFilterAC, changeTodolistTitleTC, fetchTodolistsTC, FilterValuesType, removeTodolistTC } from "./todolists-reducer"
 
 export const TodolistsList: React.FC = () => {
   const todolists = useAppSelector((state) => state.todolists)
@@ -54,7 +54,7 @@ export const TodolistsList: React.FC = () => {
   }, [])
 
   const changeTodolistTitle = useCallback(function (id: string, title: string) {
-    const thunk = changeTodolistTitleTC(id, title)
+    const thunk = changeTodolistTitleTC({ id, title })
     dispatch(thunk)
   }, [])
 
@@ -79,7 +79,14 @@ export const TodolistsList: React.FC = () => {
           let allTodolistTasks = tasks[tl.id]
           return (
             <Grid item key={tl.id}>
-              <Paper style={{ padding: "10px", backgroundColor: "rgb(238,174,202)", background: "radial-gradient(circle, rgba(238,174,202,0.14469537815126055) 0%, rgba(233,191,148,1) 100%)" }}>
+              <Paper
+                style={{
+                  padding: "10px",
+                  backgroundColor: "rgb(238,174,202)",
+                  background: "radial-gradient(circle, rgba(238,174,202,0.14469537815126055) 0%, rgba(233,191,148,1) 100%)",
+                  boxShadow: "-20px 20px 0 -17px #eee,20px -20px 0 -17px #eee,20px 20px 0 -20px #f0d734,0 0 0 2px #f0d734",
+                }}
+              >
                 <Todolist
                   id={tl.id}
                   title={tl.title}
