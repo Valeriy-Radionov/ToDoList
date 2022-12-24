@@ -4,7 +4,7 @@ export const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.1/",
   withCredentials: true,
   headers: {
-    "API-KEY": "1ca42077-7cf4-467f-8cb0-9dda07038fd9",
+    "API-KEY": "909b5751-5149-4473-b118-5bb0b318d88a",
   },
 })
 
@@ -43,10 +43,14 @@ export type TodolistType = {
   addedDate: string
   order: number
 }
+export type FieldErrorsType = {
+  field: string
+  error: string
+}
 export type ResponseType<D = {}> = {
   resultCode: number
   messages: Array<string>
-  fieldsErrors: Array<string>
+  fieldsErrors?: Array<FieldErrorsType>
   data: D
 }
 

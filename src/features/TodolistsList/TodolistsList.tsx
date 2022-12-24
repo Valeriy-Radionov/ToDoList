@@ -34,12 +34,12 @@ export const TodolistsList: React.FC = () => {
   }, [])
 
   const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-    const thunk = updateTaskTC(id, { status }, todolistId)
+    const thunk = updateTaskTC({ taskId: id, domainModel: { status }, todolistId })
     dispatch(thunk)
   }, [])
 
   const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-    const thunk = updateTaskTC(id, { title: newTitle }, todolistId)
+    const thunk = updateTaskTC({ taskId: id, domainModel: { title: newTitle }, todolistId })
     dispatch(thunk)
   }, [])
 
@@ -71,15 +71,15 @@ export const TodolistsList: React.FC = () => {
   }
   return (
     <>
-      <Grid container style={{ padding: "20px" }}>
-        <AddItemForm addItem={addTodolist} />
+      <Grid container style={{ padding: "20px 20px 20px 0px" }}>
+        <AddItemForm placeholder="Todolist title" addItem={addTodolist} />
       </Grid>
       <Grid container spacing={3}>
         {todolists.map((tl) => {
           let allTodolistTasks = tasks[tl.id]
           return (
             <Grid item key={tl.id}>
-              <Paper style={{ padding: "10px", backgroundColor: "lightsteelblue" }}>
+              <Paper style={{ padding: "10px", backgroundColor: "rgb(238,174,202)", background: "radial-gradient(circle, rgba(238,174,202,0.14469537815126055) 0%, rgba(233,191,148,1) 100%)" }}>
                 <Todolist
                   id={tl.id}
                   title={tl.title}

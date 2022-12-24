@@ -69,10 +69,10 @@ export const Todolist = React.memo(function (props: TodolistPropsType) {
       <h3>
         <EditableSpan value={props.title} onChange={changeTodolistTitle} disabled={isDisabled} />
         <IconButton onClick={removeTodolist} disabled={isDisabled}>
-          <Delete />
+          <Delete color="error" />
         </IconButton>
       </h3>
-      <AddItemForm addItem={addTask} disabled={isDisabled} />
+      <AddItemForm placeholder="Task title" addItem={addTask} disabled={isDisabled} />
       <div>
         {tasksForTodolist.map((t) => (
           <Task
