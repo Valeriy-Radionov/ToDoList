@@ -1,10 +1,9 @@
-import { setAppStatusAC } from "../../app/app-reducer"
-import { authAPI, LoginParamsType } from "../../api/authAPI"
-import { handleServerAppError, handleServerNetworkError } from "../../components/utils/errors-utils"
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Dispatch } from "redux"
 import { AxiosError } from "axios"
+import { authAPI, LoginParamsType } from "../../api/authAPI"
 import { FieldErrorsType } from "../../api/todolists-api"
+import { setAppStatusAC } from "../../app/app-reducer"
+import { handleServerAppError, handleServerNetworkError } from "../../components/utils/errors-utils"
 
 const initialState = {
   isLoggedIn: false,
