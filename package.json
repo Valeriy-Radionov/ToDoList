@@ -1,6 +1,7 @@
 {
   "name": "counter-plus-settings",
   "version": "0.1.0",
+  "homepage": "https://github.com/Valeriy-Radionov/ToDoList",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -36,7 +37,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public --no-dll",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d buid"
   },
   "eslintConfig": {
     "extends": [
@@ -80,6 +83,7 @@
     "babel-plugin-named-exports-order": "^0.0.2",
     "express": "^4.18.1",
     "express-favicon": "^2.0.1",
+    "gh-pages": "^4.0.0",
     "path": "^0.12.7",
     "prop-types": "^15.8.1",
     "webpack": "^5.74.0"
