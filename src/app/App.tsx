@@ -1,10 +1,10 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import "./App.css"
 import { TodolistsList } from "../features/TodolistsList/TodolistsList"
-import { LinearProgress } from "@mui/material"
+import { Button, LinearProgress, AppBar, Toolbar } from "@mui/material"
 import { Menu } from "@material-ui/icons"
 import { useAppDispatch, useAppSelector } from "../utils/huks/app-hooks"
-import { AppBar, Button, CircularProgress, Container, IconButton, Toolbar, Typography } from "@material-ui/core"
+import { CircularProgress, Container, IconButton, Typography } from "@material-ui/core"
 import { ErrorSnackbar } from "../components/errorSnackbar/ErrorSnackbar"
 import { Login } from "../features/Login/Login"
 import { Navigate, Route, Routes } from "react-router-dom"
@@ -34,12 +34,12 @@ function App() {
   return (
     <div className="App">
       <ErrorSnackbar />
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" sx={{ background: "black" }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <IconButton edge="start" color="inherit" aria-label="menu">
             <Menu />
           </IconButton>
-          <Typography variant="h6">News</Typography>
+          <Typography variant="h6">Notes</Typography>
           {isLoggedIn && (
             <Button color="inherit" onClick={logOutHandler}>
               Log out
