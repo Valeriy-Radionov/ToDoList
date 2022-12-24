@@ -1,7 +1,7 @@
 {
   "name": "counter-plus-settings",
   "version": "0.1.0",
-  "homepage": "https://github.com/Valeriy-Radionov/ToDoList",
+  "homepage": "https://github.io/Valeriy-Radionov/ToDoList",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
