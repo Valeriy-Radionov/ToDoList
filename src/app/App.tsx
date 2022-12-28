@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import "./App.css"
-import { TodolistsList } from "../features/TodolistsList/TodolistsList"
+import { TodolistsList } from "../features/TodolistsList"
 import { Button, LinearProgress, AppBar, Toolbar } from "@mui/material"
 import { Menu } from "@material-ui/icons"
 import { useAppDispatch, useAppSelector } from "../utils/huks/app-hooks"
@@ -11,11 +11,11 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import { initializeAppTC } from "./app-reducer"
 import { logoutTC } from "../features/Auth/auth-reducer"
 import { authSelectors } from "../features/Auth"
-import { appSelectors } from "."
+import { selectAppStatus, selectIsInitialized } from "./selectors"
 
 function App() {
-  const status = useAppSelector(appSelectors.selectAppStatus)
-  const isInitialized = useAppSelector(appSelectors.selectIsInitialized)
+  const status = useAppSelector(selectAppStatus)
+  const isInitialized = useAppSelector(selectIsInitialized)
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
   const dispatch = useAppDispatch()
 

@@ -1,17 +1,8 @@
 import { text } from "stream/consumers"
 import { v1 } from "uuid"
 import { RequestStatusType } from "../app/app-reducer"
-import {
-  addTodolistTC,
-  changeTodolistFilterAC,
-  changeTodolistStatusAC,
-  changeTodolistTitleTC,
-  fetchTodolistsTC,
-  FilterValuesType,
-  removeTodolistTC,
-  TodolistDomainType,
-  todolistsReducer,
-} from "../features/TodolistsList/todolists-reducer"
+import { FilterValuesType, TodolistDomainType, todolistsReducer } from "../features/TodolistsList/todolists-reducer"
+import { todolistActions } from "../features/TodolistsList"
 
 let todolistId1: string
 let todolistId2: string
@@ -28,7 +19,7 @@ beforeEach(() => {
 
 test("correct todolist should be removed", () => {
   const data = { id: todolistId1 }
-  const action = removeTodolistTC.fulfilled(data, "requestId", todolistId1)
+  const action = todolistActions.removeTodolist.fulfilled(data, "requestId", todolistId1)
   const endState = todolistsReducer(startState, action)
 
   expect(endState.length).toBe(1)
@@ -42,7 +33,7 @@ test("correct todolist should be added", () => {
     addedDate: "",
     order: 0,
   }
-  const action = addTodolistTC.fulfilled({ todolist: data }, "requestId", data.title)
+  const action = todolistActions.addTodolist.fulfilled({ todolist: data }, "requestId", data.title)
 
   const endState = todolistsReducer(startState, action)
   expect(endState.length).toBe(3)
@@ -53,7 +44,7 @@ test("correct todolist should be added", () => {
 test("correct todolist should change it's name", () => {
   const newTodolistTitle = "New todolist title"
   const data = { id: todolistId2, title: newTodolistTitle }
-  const action = changeTodolistTitleTC.fulfilled(data, "requestId", data)
+  const action = todolistActions.changeTodolistTitle.fulfilled(data, "requestId", data)
   const endState = todolistsReducer(startState, action)
 
   expect(endState[0].title).toBe("What to learn")
@@ -62,7 +53,7 @@ test("correct todolist should change it's name", () => {
 
 test("correct filter of todolist should be changed", () => {
   const newFilter: FilterValuesType = "completed"
-  const action = changeTodolistFilterAC({ id: todolistId1, filter: newFilter })
+  const action = todolistActions.changeTodolistFilter({ id: todolistId1, filter: newFilter })
   const endState = todolistsReducer(startState, action)
 
   expect(endState[0].filter).toBe(newFilter)
@@ -72,7 +63,7 @@ test("correct filter of todolist should be changed", () => {
 test("todolist should be added", () => {
   const title = "New todo"
   const data = { todolists: startState }
-  const action = fetchTodolistsTC.fulfilled(data, "requestId")
+  const action = todolistActions.fetchTodolists.fulfilled(data, "requestId")
   const endState = todolistsReducer(startState, action)
 
   expect(endState.length).toBe(2)
@@ -80,7 +71,7 @@ test("todolist should be added", () => {
 
 test("correct entity status of todolist should be change", () => {
   let newStatus: RequestStatusType = "loading"
-  let action = changeTodolistStatusAC({ id: todolistId2, status: newStatus })
+  let action = todolistActions.changeTodolistStatus({ id: todolistId2, status: newStatus })
   const endState = todolistsReducer(startState, action)
 
   expect(endState[0].entityStatus).toBe("idle")
