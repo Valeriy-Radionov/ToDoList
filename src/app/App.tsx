@@ -5,17 +5,19 @@ import { Button, LinearProgress, AppBar, Toolbar } from "@mui/material"
 import { Menu } from "@material-ui/icons"
 import { useAppDispatch, useAppSelector } from "../utils/huks/app-hooks"
 import { CircularProgress, Container, IconButton, Typography } from "@material-ui/core"
-import { ErrorSnackbar } from "../components/errorSnackbar/ErrorSnackbar"
-import { Login } from "../features/Login/Login"
+import { ErrorSnackbar } from "../components/ErrorSnackbar/ErrorSnackbar"
+import { Login } from "../features/Auth/Login"
 import { Navigate, Route, Routes } from "react-router-dom"
 import { initializeAppTC } from "./app-reducer"
-import { logoutTC } from "../features/Login/auth-reducer"
+import { logoutTC } from "../features/Auth/auth-reducer"
+import { authSelectors } from "../features/Auth"
+import { appSelectors } from "."
 
 function App() {
-  const status = useAppSelector((state) => state.app.status)
+  const status = useAppSelector(appSelectors.selectAppStatus)
+  const isInitialized = useAppSelector(appSelectors.selectIsInitialized)
+  const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
   const dispatch = useAppDispatch()
-  const isInitialized = useAppSelector((state) => state.app.isInitialized)
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
 
   useEffect(() => {
     dispatch(initializeAppTC())
