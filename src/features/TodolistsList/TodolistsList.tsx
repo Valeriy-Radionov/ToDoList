@@ -1,17 +1,19 @@
 import { Grid, Paper } from "@material-ui/core"
 import React, { useCallback, useEffect } from "react"
 import { Navigate } from "react-router-dom"
+import { todolistsSelectors } from "."
 import { TaskStatuses } from "../../api/todolists-api"
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm"
 import { useAppDispatch, useAppSelector } from "../../utils/huks/app-hooks"
+import { authSelectors } from "../Auth"
 import { addTaskTC, removeTaskTC, updateTaskTC } from "./tasks-reducer"
 import { Todolist } from "./Todolist/Todolist"
 import { addTodolistTC, changeTodolistFilterAC, changeTodolistTitleTC, fetchTodolistsTC, FilterValuesType, removeTodolistTC } from "./todolists-reducer"
 
 export const TodolistsList: React.FC = () => {
-  const todolists = useAppSelector((state) => state.todolists)
-  const tasks = useAppSelector((state) => state.tasks)
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+  const todolists = useAppSelector(todolistsSelectors.selectTodolists)
+  const tasks = useAppSelector(todolistsSelectors.selectTasks)
+  const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
 
   const dispatch = useAppDispatch()
 
