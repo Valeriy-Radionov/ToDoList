@@ -1,30 +1,30 @@
-import { useEffect } from "react"
-import "./App.css"
-import { TodolistsList } from "../features/TodolistsList"
-import { Button, LinearProgress, AppBar, Toolbar } from "@mui/material"
-import { Menu } from "@material-ui/icons"
-import { useAppDispatch, useAppSelector } from "../utils/huks/app-hooks"
 import { CircularProgress, Container, IconButton, Typography } from "@material-ui/core"
-import { ErrorSnackbar } from "../components/ErrorSnackbar/ErrorSnackbar"
-import { Login } from "../features/Auth/Login"
+import { Menu } from "@material-ui/icons"
+import { AppBar, Button, LinearProgress, Toolbar } from "@mui/material"
+import { useEffect } from "react"
 import { Navigate, Route, Routes } from "react-router-dom"
-import { initializeAppTC } from "./app-reducer"
-import { logoutTC } from "../features/Auth/auth-reducer"
-import { authSelectors } from "../features/Auth"
+import { appActions } from "."
+import { ErrorSnackbar } from "../components/ErrorSnackbar/ErrorSnackbar"
+import { authActions, authSelectors, Login } from "../features/Auth"
+import { TodolistsList } from "../features/TodolistsList"
+import { useAppDispatch, useAppSelector } from "../utils/huks/app-hooks"
+import "./App.css"
 import { selectAppStatus, selectIsInitialized } from "./selectors"
+import { useActions } from "./store"
 
 function App() {
   const status = useAppSelector(selectAppStatus)
   const isInitialized = useAppSelector(selectIsInitialized)
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
-  const dispatch = useAppDispatch()
+  const { initializeApp } = useActions(appActions)
+  const { logoutTC } = useActions(authActions)
 
   useEffect(() => {
-    dispatch(initializeAppTC())
+    initializeApp()
   }, [])
 
   const logOutHandler = () => {
-    dispatch(logoutTC())
+    logoutTC()
   }
   if (!isInitialized) {
     return (

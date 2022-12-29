@@ -1,2 +1,7 @@
 import * as appSelectors from "./selectors"
-export { appSelectors }
+import { slice, asyncActions } from "./app-reducer"
+const appActions = {
+  ...slice.actions,
+  ...asyncActions,
+}
+export { appSelectors, appActions }

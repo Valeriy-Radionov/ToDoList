@@ -8,10 +8,9 @@ import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import { FormikHelpers, useFormik } from "formik"
-import { loginTC } from "./auth-reducer"
 import { useAppDispatch, useAppSelector } from "../../utils/huks/app-hooks"
 import { Navigate } from "react-router-dom"
-import { authSelectors } from "."
+import { authActions, authSelectors } from "."
 
 type FormikValuesType = {
   email: string
@@ -22,10 +21,10 @@ type FormikErrorsType = {
   email?: string
   password?: string
 }
-
 export const Login = () => {
   const dispatch = useAppDispatch()
   const isLoggedIn = useAppSelector(authSelectors.selectIsLoggedIn)
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -48,8 +47,8 @@ export const Login = () => {
       return errors
     },
     onSubmit: async (values, formikHelpers: FormikHelpers<FormikValuesType>) => {
-      const action = await dispatch(loginTC(values))
-      if (loginTC.rejected.match(action)) {
+      const action = await dispatch(authActions.loginTC(values))
+      if (authActions.loginTC.rejected.match(action)) {
         if (action.payload?.fieldsErrors?.length) {
           const error = action.payload.fieldsErrors[0]
           formikHelpers.setFieldError(error.field, error.error)

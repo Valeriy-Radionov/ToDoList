@@ -8,7 +8,7 @@ import { handleServerAppError, handleServerNetworkError } from "../../components
 const initialState = {
   isLoggedIn: false,
 }
-export const loginTC = createAsyncThunk<undefined, LoginParamsType, { rejectValue: { errors: string[]; fieldsErrors?: FieldErrorsType[] } }>("auth/login", async (param, thunkApi) => {
+const loginTC = createAsyncThunk<undefined, LoginParamsType, { rejectValue: { errors: string[]; fieldsErrors?: FieldErrorsType[] } }>("auth/login", async (param, thunkApi) => {
   thunkApi.dispatch(setAppStatusAC({ status: "loading" }))
   try {
     const res = await authAPI.login(param)
@@ -25,7 +25,7 @@ export const loginTC = createAsyncThunk<undefined, LoginParamsType, { rejectValu
   }
 })
 
-export const logoutTC = createAsyncThunk("auth/logout", async (param, thunkApi) => {
+const logoutTC = createAsyncThunk("auth/logout", async (param, thunkApi) => {
   thunkApi.dispatch(setAppStatusAC({ status: "loading" }))
   try {
     const res = await authAPI.logout()
@@ -41,7 +41,9 @@ export const logoutTC = createAsyncThunk("auth/logout", async (param, thunkApi) 
   }
 })
 
-const slice = createSlice({
+export const asyncActions = { loginTC, logoutTC }
+
+export const slice = createSlice({
   name: "auth",
   initialState: initialState,
   reducers: {

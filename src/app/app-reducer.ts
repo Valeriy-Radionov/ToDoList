@@ -15,7 +15,7 @@ const initialState: InitialAppStateType = {
   isInitialized: false,
 }
 
-export const initializeAppTC = createAsyncThunk("app/initializeApp", async (param, { dispatch }) => {
+export const initializeApp = createAsyncThunk("app/initializeApp", async (param, { dispatch }) => {
   try {
     const res = await authAPI.me()
     if (res.data.resultCode === 0) {
@@ -30,8 +30,8 @@ export const initializeAppTC = createAsyncThunk("app/initializeApp", async (para
     dispatch(setAppInitializedAC({ value: true }))
   }
 })
-
-const slice = createSlice({
+export const asyncActions = { initializeApp }
+export const slice = createSlice({
   name: "app",
   initialState: initialState,
   reducers: {
