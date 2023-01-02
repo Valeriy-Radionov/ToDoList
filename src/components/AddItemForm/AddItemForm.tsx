@@ -4,21 +4,25 @@ import { AddBox } from "@material-ui/icons"
 import { IconButton } from "@mui/material"
 
 type AddItemFormPropsType = {
-  addItem: (title: string) => void
+  addItem: (title: string) => Promise<any>
   disabled?: boolean
   placeholder: string
 }
 
-export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
+export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo(function ({ addItem, disabled, placeholder }) {
   console.log("AddItemForm called")
 
   let [title, setTitle] = useState("")
   let [error, setError] = useState<string | null>(null)
 
-  const addItem = () => {
+  const addNewItem = async () => {
     if (title.trim() !== "" && title.length < 100) {
-      props.addItem(title)
-      setTitle("")
+      try {
+        await addItem(title)
+        setTitle("")
+      } catch (e) {
+        setError(e as string)
+      }
     } else {
       setError("Title length must be 1...100 symbols")
     }
@@ -33,14 +37,14 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
       setError(null)
     }
     if (e.charCode === 13) {
-      addItem()
+      addNewItem()
     }
   }
 
   return (
-    <div>
-      <TextField variant="outlined" error={!!error} value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler} label={props.placeholder} helperText={error} disabled={!!props.disabled} />
-      <IconButton onClick={addItem} disabled={props.disabled}>
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <TextField variant="outlined" error={!!error} value={title} onChange={onChangeHandler} onKeyPress={onKeyPressHandler} label={placeholder} helperText={error} disabled={!!disabled} />
+      <IconButton onClick={addNewItem} disabled={disabled} style={{ marginLeft: "5px" }}>
         <AddBox style={{ color: "#28a12c" }} />
       </IconButton>
     </div>

@@ -21,30 +21,29 @@ export const TodolistsList: React.FC = () => {
     }
     fetchTodolists()
   }, [])
-
+  const addTodolistCallback = useCallback(async (title: string) => {
+    addTodolist(title)
+  }, [])
   if (!isLoggedIn) {
     return <Navigate to={"/login"} />
   }
   return (
     <>
       <Grid container style={{ padding: "20px 20px 20px 0px" }}>
-        <AddItemForm placeholder="Todolist title" addItem={addTodolist} />
+        <AddItemForm placeholder="Todolist title" addItem={addTodolistCallback} />
       </Grid>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} style={{ flexWrap: "nowrap", overflow: "scroll" }}>
         {todolists.map((tl) => {
           let allTodolistTasks = tasks[tl.id]
           return (
             <Grid item key={tl.id}>
-              <Paper
+              <div
                 style={{
-                  padding: "10px",
-                  backgroundColor: "rgb(238,174,202)",
-                  background: "radial-gradient(circle, rgba(238,174,202,0.14469537815126055) 0%, rgba(233,191,148,1) 100%)",
-                  boxShadow: "-20px 20px 0 -17px #eee,20px -20px 0 -17px #eee,20px 20px 0 -20px #f0d734,0 0 0 2px #f0d734",
+                  width: "300px",
                 }}
               >
                 <Todolist todolistId={tl.id} todolistTitle={tl.title} tasks={allTodolistTasks} entityStatus={tl.entityStatus} filter={tl.filter} />
-              </Paper>
+              </div>
             </Grid>
           )
         })}

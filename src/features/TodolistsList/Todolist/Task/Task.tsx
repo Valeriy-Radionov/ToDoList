@@ -32,11 +32,11 @@ export const Task: React.FC<TaskPropsType> = React.memo(({ task, todolistId, ent
   )
 
   return (
-    <div key={task.id} className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
+    <div key={task.id} className={task.status === TaskStatuses.Completed ? "is-done" : ""} style={{ position: "relative" }}>
       <Checkbox checked={task.status === TaskStatuses.Completed} color="primary" onChange={onChangeHandler} />
       <EditableSpan value={task.title} onChange={onTitleChangeHandler} disabled={entityStatus === "loading"} />
-      <IconButton onClick={onClickHandler} disabled={entityStatus === "loading"}>
-        <Delete />
+      <IconButton onClick={onClickHandler} disabled={entityStatus === "loading"} style={{ position: "absolute", top: "1px", right: "1px" }}>
+        <Delete fontSize={"small"} />
       </IconButton>
     </div>
   )

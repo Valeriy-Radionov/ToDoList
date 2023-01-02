@@ -1,3 +1,4 @@
+import { Paper } from "@material-ui/core"
 import { Delete } from "@material-ui/icons"
 import { Button, IconButton } from "@mui/material"
 import React, { useCallback, useEffect } from "react"
@@ -31,7 +32,7 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({ todo
   }, [])
 
   const addNewTask = useCallback(
-    (title: string) => {
+    async (title: string) => {
       addTask({ title, todolistId })
     },
     [addTask, todolistId]
@@ -66,24 +67,33 @@ export const Todolist: React.FC<TodolistPropsType> = React.memo(function ({ todo
     )
   }
   return (
-    <div>
+    <Paper
+      style={{
+        position: "relative",
+        padding: "10px",
+        backgroundColor: "rgb(238,174,202)",
+        background: "radial-gradient(circle, rgba(238,174,202,0.14469537815126055) 0%, rgba(233,191,148,1) 100%)",
+        boxShadow: "-20px 20px 0 -17px #eee,20px -20px 0 -17px #eee,20px 20px 0 -20px #f0d734,0 0 0 2px #f0d734",
+      }}
+    >
+      <IconButton onClick={removeTodo} disabled={isDisabled} style={{ position: "absolute", top: "5px", right: "5px" }}>
+        <Delete color="error" />
+      </IconButton>
       <h3>
         <EditableSpan value={todolistTitle} onChange={changeOldTodolistTitle} disabled={isDisabled} />
-        <IconButton onClick={removeTodo} disabled={isDisabled}>
-          <Delete color="error" />
-        </IconButton>
       </h3>
       <AddItemForm placeholder="Task title" addItem={addNewTask} disabled={isDisabled} />
       <div>
         {tasksForTodolist.map((t) => (
           <Task key={t.id} task={t} todolistId={todolistId} entityStatus={entityStatus} />
         ))}
+        {!tasksForTodolist.length && <div style={{ padding: "10px", color: "grey" }}>No tasks 🗒</div>}
       </div>
       <div style={{ paddingTop: "10px" }}>
         {renderFilterButton("all", "inherit", "All")}
         {renderFilterButton("active", "primary", "Active")}
         {renderFilterButton("completed", "secondary", "Completed")}
       </div>
-    </div>
+    </Paper>
   )
 })
