@@ -1,7 +1,6 @@
-import exp from "constants"
 import { TaskPriorities, TaskStatuses } from "../api/todolists-api"
-import { addTask, fetchTasks, removeTask, tasksReducer, TasksStateType, updateTask } from "../features/TodolistsList/tasks-reducer"
 import { todolistActions } from "../features/TodolistsList"
+import { addTask, fetchTasks, removeTask, tasksReducer, TasksStateType, updateTask } from "../features/TodolistsList/tasks-reducer"
 
 let startState: TasksStateType = {}
 beforeEach(() => {

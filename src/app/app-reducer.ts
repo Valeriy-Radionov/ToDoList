@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { authAPI } from "../api/authAPI"
-import { handleServerAppError, handleServerNetworkError } from "../components/utils/errors-utils"
-import { setIsLoggedInAC } from "../features/Auth/auth-reducer"
+import { appActions } from "../CommonActions/App"
+import { handleServerAppError, handleServerNetworkError } from "../utils/errors-utils"
+import { authActions } from "../features/Auth"
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
 export type InitialAppStateType = {
@@ -15,39 +16,39 @@ const initialState: InitialAppStateType = {
   isInitialized: false,
 }
 
-export const initializeApp = createAsyncThunk("app/initializeApp", async (param, { dispatch }) => {
+export const initializeApp = createAsyncThunk("app/initializeApp", async (param, { dispatch, rejectWithValue }) => {
   try {
     const res = await authAPI.me()
     if (res.data.resultCode === 0) {
-      dispatch(setIsLoggedInAC({ value: true }))
-      dispatch(setAppInitializedAC({ value: true }))
+      dispatch(authActions.setIsLoggedInAC({ value: true }))
     } else {
       handleServerAppError(res.data, dispatch)
+      return rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
     }
   } catch (e) {
     handleServerNetworkError(e, dispatch)
-  } finally {
-    dispatch(setAppInitializedAC({ value: true }))
+    return rejectWithValue(e)
   }
 })
 export const asyncActions = { initializeApp }
 export const slice = createSlice({
   name: "app",
   initialState: initialState,
-  reducers: {
-    setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
-      state.status = action.payload.status
-    },
-    setAppErrorAC(state, action: PayloadAction<{ error: null | string }>) {
-      state.error = action.payload.error
-    },
-    setAppInitializedAC(state, action: PayloadAction<{ value: boolean }>) {
-      state.isInitialized = action.payload.value
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(initializeApp.fulfilled, (state, action) => {
+        state.isInitialized = true
+      })
+      .addCase(appActions.setAppStatus, (state, action) => {
+        state.status = action.payload.status
+      })
+      .addCase(appActions.setAppError, (state, action) => {
+        state.error = action.payload.error
+      })
   },
 })
 
-export const appReducer = slice.reducer
-export const setAppStatusAC = slice.actions.setAppStatusAC
-export const setAppErrorAC = slice.actions.setAppErrorAC
-export const setAppInitializedAC = slice.actions.setAppInitializedAC
+// const setAppStatusAC = slice.actions.setAppStatusAC
+// const setAppErrorAC = slice.actions.setAppErrorAC
+// const setAppInitializedAC = slice.actions.setAppInitializedAC

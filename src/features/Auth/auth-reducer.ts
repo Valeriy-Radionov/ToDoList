@@ -2,18 +2,19 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AxiosError } from "axios"
 import { authAPI, LoginParamsType } from "../../api/authAPI"
 import { FieldErrorsType } from "../../api/todolists-api"
-import { setAppStatusAC } from "../../app/app-reducer"
-import { handleServerAppError, handleServerNetworkError } from "../../components/utils/errors-utils"
+import { appActions } from "../../CommonActions/App"
+import { handleServerAppError, handleServerNetworkError } from "../../utils/errors-utils"
 
 const initialState = {
   isLoggedIn: false,
 }
+const { setAppStatus } = appActions
 const loginTC = createAsyncThunk<undefined, LoginParamsType, { rejectValue: { errors: string[]; fieldsErrors?: FieldErrorsType[] } }>("auth/login", async (param, thunkApi) => {
-  thunkApi.dispatch(setAppStatusAC({ status: "loading" }))
+  thunkApi.dispatch(setAppStatus({ status: "loading" }))
   try {
     const res = await authAPI.login(param)
     if (res.data.resultCode === 0) {
-      thunkApi.dispatch(setAppStatusAC({ status: "succeeded" }))
+      thunkApi.dispatch(setAppStatus({ status: "succeeded" }))
     } else {
       handleServerAppError(res.data, thunkApi.dispatch)
       return thunkApi.rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
@@ -26,18 +27,18 @@ const loginTC = createAsyncThunk<undefined, LoginParamsType, { rejectValue: { er
 })
 
 const logoutTC = createAsyncThunk("auth/logout", async (param, thunkApi) => {
-  thunkApi.dispatch(setAppStatusAC({ status: "loading" }))
+  thunkApi.dispatch(setAppStatus({ status: "loading" }))
   try {
     const res = await authAPI.logout()
     if (res.data.resultCode === 0) {
-      thunkApi.dispatch(setAppStatusAC({ status: "succeeded" }))
+      thunkApi.dispatch(setAppStatus({ status: "succeeded" }))
     } else {
       handleServerAppError(res.data, thunkApi.dispatch)
-      return thunkApi.rejectWithValue({})
+      return thunkApi.rejectWithValue({ errors: res.data.messages, fieldsErrors: res.data.fieldsErrors })
     }
   } catch (e) {
     handleServerNetworkError(e, thunkApi.dispatch)
-    return thunkApi.rejectWithValue({})
+    return thunkApi.rejectWithValue(e)
   }
 })
 
@@ -62,4 +63,3 @@ export const slice = createSlice({
 })
 
 export const authReducer = slice.reducer
-export const setIsLoggedInAC = slice.actions.setIsLoggedInAC

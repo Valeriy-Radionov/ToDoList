@@ -7,10 +7,10 @@ import { appActions } from "."
 import { ErrorSnackbar } from "../components/ErrorSnackbar/ErrorSnackbar"
 import { authActions, authSelectors, Login } from "../features/Auth"
 import { TodolistsList } from "../features/TodolistsList"
-import { useAppDispatch, useAppSelector } from "../utils/huks/app-hooks"
+import { useAppSelector } from "../utils/huks/app-hooks"
+import { useActions } from "../utils/redux-utils"
 import "./App.css"
 import { selectAppStatus, selectIsInitialized } from "./selectors"
-import { useActions } from "./store"
 
 function App() {
   const status = useAppSelector(selectAppStatus)

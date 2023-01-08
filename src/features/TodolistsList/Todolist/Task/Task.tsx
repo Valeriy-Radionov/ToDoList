@@ -1,11 +1,11 @@
-import React, { ChangeEvent, useCallback } from "react"
-import { EditableSpan } from "../../../../components/EditableSpan/EditableSpan"
-import { TaskStatuses, TaskType } from "../../../../api/todolists-api"
 import { Delete } from "@material-ui/icons"
 import { Checkbox, IconButton } from "@mui/material"
-import { RequestStatusType } from "../../../../app/app-reducer"
-import { useActions } from "../../../../app/store"
+import React, { ChangeEvent, useCallback } from "react"
 import { tasksActions } from "../.."
+import { TaskStatuses, TaskType } from "../../../../api/todolists-api"
+import { RequestStatusType } from "../../../../app/app-reducer"
+import { EditableSpan } from "../../../../components/EditableSpan/EditableSpan"
+import { useActions } from "../../../../utils/redux-utils"
 
 type TaskPropsType = {
   task: TaskType

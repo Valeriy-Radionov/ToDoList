@@ -4,4 +4,5 @@ const appActions = {
   ...slice.actions,
   ...asyncActions,
 }
-export { appSelectors, appActions }
+const appReducer = slice.reducer
+export { appSelectors, appActions, appReducer }

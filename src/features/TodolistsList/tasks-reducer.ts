@@ -1,20 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios, { AxiosError } from "axios"
-import { asyncActions as asyncTodolistsActions } from "./todolists-reducer"
 import { RESULT_CODES, TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from "../../api/todolists-api"
-import { setAppStatusAC } from "../../app/app-reducer"
 import { AppRootStateType } from "../../app/store"
-import { handleServerAppError, handleServerNetworkError } from "../../components/utils/errors-utils"
-import { changeTodolistStatus } from "./todolists-reducer"
+import { appActions } from "../../CommonActions/App"
+import { handleServerAppError, handleServerNetworkError } from "../../utils/errors-utils"
+import { asyncActions as asyncTodolistsActions, changeTodolistStatus } from "./todolists-reducer"
 
 const initialState: TasksStateType = {}
-
+const { setAppStatus } = appActions
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async (todolistId: string, thunkApi) => {
-  thunkApi.dispatch(setAppStatusAC({ status: "loading" }))
+  thunkApi.dispatch(setAppStatus({ status: "loading" }))
   try {
     let res = await todolistsAPI.getTasks(todolistId)
     const tasks = res.data.items
-    thunkApi.dispatch(setAppStatusAC({ status: "succeeded" }))
+    thunkApi.dispatch(setAppStatus({ status: "succeeded" }))
     return { tasks, todolistId }
   } catch (e) {
     const err = e as Error | AxiosError
@@ -26,11 +25,11 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async (todolistId
 })
 
 export const removeTask = createAsyncThunk("tasks/removeTask", async (params: { taskId: string; todolistId: string }, { dispatch }) => {
-  dispatch(setAppStatusAC({ status: "loading" }))
+  dispatch(setAppStatus({ status: "loading" }))
   try {
     const res = await todolistsAPI.deleteTask(params.todolistId, params.taskId)
     if (res.data.resultCode === RESULT_CODES.succeeded) {
-      dispatch(setAppStatusAC({ status: "succeeded" }))
+      dispatch(setAppStatus({ status: "succeeded" }))
       return { taskId: params.taskId, todolistId: params.todolistId }
     } else {
       handleServerAppError(res.data, dispatch)
@@ -41,13 +40,13 @@ export const removeTask = createAsyncThunk("tasks/removeTask", async (params: { 
 })
 
 export const addTask = createAsyncThunk("tasks/addTask", async (params: { title: string; todolistId: string }, { dispatch, rejectWithValue }) => {
-  dispatch(setAppStatusAC({ status: "loading" }))
+  dispatch(setAppStatus({ status: "loading" }))
   dispatch(changeTodolistStatus({ id: params.todolistId, status: "loading" }))
   try {
     const res = await todolistsAPI.createTask(params.todolistId, params.title)
     if (res.data.resultCode === RESULT_CODES.succeeded) {
       const task = res.data.data.item
-      dispatch(setAppStatusAC({ status: "succeeded" }))
+      dispatch(setAppStatus({ status: "succeeded" }))
       dispatch(changeTodolistStatus({ id: params.todolistId, status: "idle" }))
       return task
     } else {
@@ -65,7 +64,7 @@ export const updateTask = createAsyncThunk(
   async (param: { taskId: string; domainModel: UpdateDomainTaskModelType; todolistId: string }, { dispatch, rejectWithValue, getState }) => {
     const { domainModel, todolistId, taskId } = param
     const state = getState() as AppRootStateType
-    dispatch(setAppStatusAC({ status: "loading" }))
+    dispatch(setAppStatus({ status: "loading" }))
     const task = state.tasks[param.todolistId].find((t) => t.id === taskId)
     if (!task) {
       return rejectWithValue("task not found in the state")
@@ -82,7 +81,7 @@ export const updateTask = createAsyncThunk(
     try {
       const res = await todolistsAPI.updateTask(todolistId, taskId, apiModel)
       if (res.data.resultCode === RESULT_CODES.succeeded) {
-        dispatch(setAppStatusAC({ status: "succeeded" }))
+        dispatch(setAppStatus({ status: "succeeded" }))
         return {
           taskId: taskId,
           model: domainModel,
@@ -104,7 +103,7 @@ export const asyncActions = {
   addTask,
   updateTask,
 }
-const slice = createSlice({
+export const slice = createSlice({
   name: "tasks",
   initialState: initialState,
   reducers: {},
